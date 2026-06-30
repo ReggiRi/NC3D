@@ -1,0 +1,7 @@
+{
+    "nc3d.model.missing": "Missing Model",
+    "nc3d.ink.spawn_model": "Sets a 3D model on a character",
+    "nc3d.ink.set_model": "Changes the 3D model on an existing character",
+    "nc3d.ink.play_animation": "Plays an animation on a 3D character model",
+    "nc3d.ink.stop_animation": "Stops the current animation on a 3D character model"
+}
