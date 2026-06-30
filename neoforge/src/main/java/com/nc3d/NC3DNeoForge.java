@@ -2,12 +2,14 @@ package com.nc3d;
 
 import com.nc3d.entity.ModelEntityRenderer;
 import com.nc3d.entity.NC3DEntities;
+import com.nc3d.model.ModelConfigLoader;
 import com.nc3d.network.NC3DPackets;
 import com.nc3d.network.S2CAnimationState;
 import com.nc3d.network.S2CSyncModel;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -18,6 +20,7 @@ public class NC3DNeoForge {
     public NC3DNeoForge(IEventBus eventBus) {
         NC3DPackets.register();
         NC3DMod.commonInit();
+        ModelConfigLoader.loadFromDirectory(FMLPaths.CONFIGDIR.get());
 
         eventBus.addListener((ServerStartedEvent event) -> NC3DMod.getInstance().setServer(event.getServer()));
         eventBus.addListener(this::onRegisterPayloads);
