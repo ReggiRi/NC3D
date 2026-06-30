@@ -35,3 +35,9 @@ rootProject.name = 'NC3D'
 include('common')
 include('fabric')
 include('neoforge')
+
+includeBuild('/home/kirill/Desktop/NarrativeCraft') {
+    dependencySubstitution {
+        substitute module('fr.loudo.narrativecraft:narrativecraft-api') using project(':api')
+    }
+}

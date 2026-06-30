@@ -17,6 +17,10 @@ dependencies {
     annotationProcessor group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.3.5'
 
     implementation "software.bernie.geckolib:geckolib-common-${minecraft_version}:${geckolib_version}"
+
+    compileOnly 'fr.loudo.narrativecraft:narrativecraft-api'
+    compileOnly "com.bladecoder.ink:blade-ink:1.3.2"
+    compileOnly "com.bladecoder.ink:blade-ink-compiler:1.3.2"
 }
 
 configurations {
