@@ -25,7 +25,7 @@ public class InkPlayAnimation extends InkAction {
     protected InkActionResult doValidate(ParsedCommand cmd, IScene scene) {
         characterName = cmd.getString("characterName");
         animationName = cmd.getString("animationName");
-        loop = cmd.hasFlag("loop");
+        loop = cmd.flag("loop");
         return InkActionResult.ok();
     }
 

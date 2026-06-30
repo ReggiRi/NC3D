@@ -10,8 +10,7 @@ public record ModelData(
         float scale,
         float offsetX,
         float offsetY,
-        float offsetZ
-) {
+        float offsetZ) {
     public static final float DEFAULT_SCALE = 1.0f;
 
     public static Builder builder(String modelId, ResourceLocation modelPath, ResourceLocation texturePath) {

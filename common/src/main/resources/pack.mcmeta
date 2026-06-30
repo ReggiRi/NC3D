@@ -1,7 +1,7 @@
 {
     "pack": {
         "description": "${description}",
-        "pack_format": 48,
-        "supported_formats": ${minecraft_version_range}
+        "pack_format": 42,
+        "supported_formats": 42
     }
 }

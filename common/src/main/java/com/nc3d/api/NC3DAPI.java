@@ -16,7 +16,7 @@ public final class NC3DAPI {
     }
 
     public EntityType<?> getModelEntityType() {
-        return NC3DEntities.MODEL_ENTITY.get();
+        return NC3DEntities.MODEL_ENTITY;
     }
 
     public ModelRegistry getModelRegistry() {

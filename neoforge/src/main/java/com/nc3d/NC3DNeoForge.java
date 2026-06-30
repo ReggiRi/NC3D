@@ -19,15 +19,14 @@ public class NC3DNeoForge {
         NC3DPackets.register();
         NC3DMod.commonInit();
 
-        eventBus.addListener((ServerStartedEvent event) ->
-                NC3DMod.getInstance().setServer(event.getServer()));
+        eventBus.addListener((ServerStartedEvent event) -> NC3DMod.getInstance().setServer(event.getServer()));
         eventBus.addListener(this::onRegisterPayloads);
         eventBus.addListener(this::onClientSetup);
         eventBus.addListener(this::onRegisterRenderers);
     }
 
     private void onRegisterPayloads(RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.getRegistrar(NC3DConstants.MOD_ID);
+        PayloadRegistrar registrar = event.registrar(NC3DConstants.MOD_ID);
         registrar.playToClient(S2CSyncModel.TYPE, S2CSyncModel.STREAM_CODEC, (payload, context) -> {});
         registrar.playToClient(S2CAnimationState.TYPE, S2CAnimationState.STREAM_CODEC, (payload, context) -> {});
     }
@@ -35,6 +34,6 @@ public class NC3DNeoForge {
     private void onClientSetup(FMLClientSetupEvent event) {}
 
     private void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(NC3DEntities.MODEL_ENTITY.get(), ModelEntityRenderer::new);
+        event.registerEntityRenderer(NC3DEntities.MODEL_ENTITY, ModelEntityRenderer::new);
     }
 }

@@ -17,7 +17,8 @@ public final class NCCharacterHandler {
 
     public static void onSpawn(CharacterSpawnEvent event) {
         Entity entity = findEntity(event);
-        if (entity instanceof ModelEntity modelEntity && modelEntity.getModelId().isEmpty()) {
+        if (entity instanceof ModelEntity modelEntity
+                && modelEntity.getModelId().isEmpty()) {
             modelEntity.setModelId(event.character().getName().toLowerCase());
         }
     }

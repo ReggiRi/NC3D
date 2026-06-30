@@ -12,11 +12,13 @@ public record S2CSyncModel(int entityId, String modelId, float scale) implements
             new CustomPacketPayload.Type<>(ResourceLocation.parse(NC3DConstants.MOD_ID + ":sync_model"));
 
     public static final StreamCodec<ByteBuf, S2CSyncModel> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.INT, S2CSyncModel::entityId,
-            ByteBufCodecs.STRING_UTF8, S2CSyncModel::modelId,
-            ByteBufCodecs.FLOAT, S2CSyncModel::scale,
-            S2CSyncModel::new
-    );
+            ByteBufCodecs.INT,
+            S2CSyncModel::entityId,
+            ByteBufCodecs.STRING_UTF8,
+            S2CSyncModel::modelId,
+            ByteBufCodecs.FLOAT,
+            S2CSyncModel::scale,
+            S2CSyncModel::new);
 
     @Override
     public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {

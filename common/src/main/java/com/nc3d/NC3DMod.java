@@ -2,12 +2,11 @@ package com.nc3d;
 
 import com.nc3d.entity.NC3DEntities;
 import com.nc3d.event.NCCharacterHandler;
-import com.nc3d.ink.InkSpawnModel;
-import com.nc3d.ink.InkSetModel;
 import com.nc3d.ink.InkPlayAnimation;
+import com.nc3d.ink.InkSetModel;
+import com.nc3d.ink.InkSpawnModel;
 import com.nc3d.ink.InkStopAnimation;
 import com.nc3d.model.ModelRegistry;
-import com.nc3d.network.NC3DPackets;
 import fr.loudo.narrativecraft.api.AddonContext;
 import fr.loudo.narrativecraft.api.NarrativeCraftAPI;
 import org.slf4j.Logger;
@@ -47,8 +46,7 @@ public final class NC3DMod {
                 "3D Model support for NarrativeCraft",
                 "NC3D Team",
                 "",
-                1
-        );
+                1);
 
         mod.addonContext.registerInkAction(InkSpawnModel.class, InkSpawnModel::new);
         mod.addonContext.registerInkAction(InkSetModel.class, InkSetModel::new);
@@ -56,13 +54,10 @@ public final class NC3DMod {
         mod.addonContext.registerInkAction(InkStopAnimation.class, InkStopAnimation::new);
 
         mod.addonContext.registerEvent(
-                fr.loudo.narrativecraft.api.events.character.CharacterSpawnEvent.class,
-                NCCharacterHandler::onSpawn
-        );
+                fr.loudo.narrativecraft.api.events.character.CharacterSpawnEvent.class, NCCharacterHandler::onSpawn);
         mod.addonContext.registerEvent(
                 fr.loudo.narrativecraft.api.events.character.CharacterDespawnEvent.class,
-                NCCharacterHandler::onDespawn
-        );
+                NCCharacterHandler::onDespawn);
 
         LOGGER.info("NC3D initialized");
     }

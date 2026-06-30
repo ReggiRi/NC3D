@@ -18,3 +18,8 @@ Thumbs.db
 
 # Minecraft
 runs/
+
+# Debug
+fabric/PrintClasspath.gradle
+fabric/init.gradle
+fabric/print_classpath.gradle

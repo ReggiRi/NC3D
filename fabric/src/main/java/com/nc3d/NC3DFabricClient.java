@@ -8,6 +8,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 public class NC3DFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(NC3DEntities.MODEL_ENTITY.get(), ModelEntityRenderer::new);
+        EntityRendererRegistry.register(NC3DEntities.MODEL_ENTITY, ModelEntityRenderer::new);
     }
 }

@@ -16,7 +16,7 @@ public class NC3DFabric implements ModInitializer {
         NC3DPackets.register();
         NC3DMod.commonInit();
 
-        ServerLifecycleEvents.SERVER_STARTED.register(server ->
-                NC3DMod.getInstance().setServer(server));
+        ServerLifecycleEvents.SERVER_STARTED.register(
+                server -> NC3DMod.getInstance().setServer(server));
     }
 }

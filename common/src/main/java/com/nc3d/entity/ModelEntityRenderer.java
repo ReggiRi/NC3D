@@ -10,11 +10,17 @@ public class ModelEntityRenderer extends GeoEntityRenderer<ModelEntity> {
     }
 
     @Override
-    protected void applyRotations(ModelEntity entity, PoseStack poseStack, float ageInTicks, float rotationYaw, float partialTick) {
-        super.applyRotations(entity, poseStack, ageInTicks, rotationYaw, partialTick);
-        float scale = entity.getModelScale();
-        if (scale != 1.0f) {
-            poseStack.scale(scale, scale, scale);
+    protected void applyRotations(
+            ModelEntity entity,
+            PoseStack poseStack,
+            float ageInTicks,
+            float rotationYaw,
+            float partialTick,
+            float scale) {
+        super.applyRotations(entity, poseStack, ageInTicks, rotationYaw, partialTick, scale);
+        float entityScale = entity.getModelScale();
+        if (entityScale != 1.0f) {
+            poseStack.scale(entityScale, entityScale, entityScale);
         }
     }
 }

@@ -10,19 +10,15 @@ import net.minecraft.world.entity.MobCategory;
 public final class NC3DEntities {
     private static final String ENTITY_ID = NC3DConstants.MOD_ID + ":model_entity";
 
-    public static final EntityType<ModelEntity> MODEL_ENTITY = EntityType.Builder
-            .<ModelEntity>of(ModelEntity::new, MobCategory.MISC)
+    public static final EntityType<ModelEntity> MODEL_ENTITY = EntityType.Builder.<ModelEntity>of(
+                    ModelEntity::new, MobCategory.MISC)
             .sized(0.6f, 1.8f)
             .clientTrackingRange(10)
-            .build(ResourceLocation.parse(ENTITY_ID));
+            .build(ENTITY_ID);
 
     private NC3DEntities() {}
 
     public static void register() {
-        Registry.register(
-                BuiltInRegistries.ENTITY_TYPE,
-                ResourceLocation.parse(ENTITY_ID),
-                MODEL_ENTITY
-        );
+        Registry.register(BuiltInRegistries.ENTITY_TYPE, ResourceLocation.parse(ENTITY_ID), MODEL_ENTITY);
     }
 }

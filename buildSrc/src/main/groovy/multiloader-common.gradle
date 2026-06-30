@@ -31,6 +31,15 @@ repositories {
         name = 'GeckoLib'
         url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Fabric'
+                url = 'https://maven.fabricmc.net/'
+            }
+        }
+        filter { includeGroupAndSubgroups('net.fabricmc') }
+    }
 }
 
 sourcesJar {
@@ -74,6 +83,7 @@ processResources {
             'credits'                      : credits,
             'java_version'                 : java_version,
             'geckolib_version'             : geckolib_version,
+            'narrativecraft_version'      : narrativecraft_version,
     ]
 
     var jsonExpandProps = expandProps.collectEntries {

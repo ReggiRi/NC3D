@@ -1,14 +1,21 @@
 plugins {
+    id 'net.fabricmc.fabric-loom-remap'
     id 'multiloader-loader'
-    id 'net.fabricmc.fabric-loom'
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered {
+        officialMojangMappings()
+    }
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
-    implementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version}"
+    modCompileOnly "software.bernie.geckolib:geckolib-fabric-${geckolib_mc_version}:${geckolib_version}"
+    modRuntimeOnly "software.bernie.geckolib:geckolib-fabric-${geckolib_mc_version}:${geckolib_version}"
+
+    modRuntimeOnly project(':NarrativeCraft:fabric')
 
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
 }
@@ -35,7 +42,7 @@ loom {
 }
 
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
-['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'includeInternal', 'modCompileClasspath'].each { variant ->
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements', 'modCompileClasspath'].each { variant ->
     configurations.named("$variant") {
         attributes {
             attribute(loaderAttribute, 'fabric')
