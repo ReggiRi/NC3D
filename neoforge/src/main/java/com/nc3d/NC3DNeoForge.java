@@ -9,8 +9,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @Mod(NC3DConstants.MOD_ID)
@@ -19,6 +19,8 @@ public class NC3DNeoForge {
         NC3DPackets.register();
         NC3DMod.commonInit();
 
+        eventBus.addListener((ServerStartedEvent event) ->
+                NC3DMod.getInstance().setServer(event.getServer()));
         eventBus.addListener(this::onRegisterPayloads);
         eventBus.addListener(this::onClientSetup);
         eventBus.addListener(this::onRegisterRenderers);

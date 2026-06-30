@@ -4,6 +4,7 @@ import com.nc3d.network.NC3DPackets;
 import com.nc3d.network.S2CAnimationState;
 import com.nc3d.network.S2CSyncModel;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
 public class NC3DFabric implements ModInitializer {
@@ -14,5 +15,8 @@ public class NC3DFabric implements ModInitializer {
 
         NC3DPackets.register();
         NC3DMod.commonInit();
+
+        ServerLifecycleEvents.SERVER_STARTED.register(server ->
+                NC3DMod.getInstance().setServer(server));
     }
 }

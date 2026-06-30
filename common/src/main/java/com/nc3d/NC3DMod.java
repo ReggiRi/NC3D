@@ -19,11 +19,20 @@ public final class NC3DMod {
 
     private final ModelRegistry modelRegistry = new ModelRegistry();
     private AddonContext addonContext;
+    private net.minecraft.server.MinecraftServer server;
 
     private NC3DMod() {}
 
     public static NC3DMod getInstance() {
         return INSTANCE;
+    }
+
+    public void setServer(net.minecraft.server.MinecraftServer server) {
+        this.server = server;
+    }
+
+    public net.minecraft.server.MinecraftServer getServer() {
+        return server;
     }
 
     public static void commonInit() {
