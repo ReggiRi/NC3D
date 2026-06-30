@@ -1,0 +1,10 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.nc3d.mixin.fabric",
+    "compatibilityLevel": "JAVA_21",
+    "client": [],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
