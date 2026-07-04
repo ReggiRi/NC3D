@@ -1,11 +1,10 @@
 package com.nc3d.model;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.nc3d.NC3DMod;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Locale;
 import java.util.stream.Stream;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 public final class ModelConfigLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger("NC3D/ModelConfig");
-    private static final Gson GSON = new Gson();
 
     public static void loadFromDirectory(Path configDir) {
         Path modelsDir = configDir.resolve("nc3d/models");
@@ -34,78 +32,61 @@ public final class ModelConfigLoader {
         ModelRegistry registry = NC3DMod.getInstance().getModelRegistry();
         int loaded = 0;
 
-        try (Stream<Path> files = Files.list(modelsDir)) {
-            for (Path file : (Iterable<Path>) files::iterator) {
-                if (!file.toString().endsWith(".json")) continue;
-                try {
-                    String content = Files.readString(file);
-                    JsonObject json = GSON.fromJson(content, JsonObject.class);
-                    ModelData data = parseModelConfig(json);
-                    if (data != null) {
-                        registry.register(data);
-                        loaded++;
-                        LOGGER.info("Loaded model config: {}", data.modelId());
-                    }
-                } catch (Exception e) {
-                    LOGGER.warn("Failed to load model config: {} - {}", file.getFileName(), e.getMessage());
+        try (Stream<Path> dirs = Files.list(modelsDir)) {
+            for (Path dir : (Iterable<Path>) dirs::iterator) {
+                if (!Files.isDirectory(dir)) continue;
+                String modelId = dir.getFileName().toString().toLowerCase(Locale.ROOT);
+                if (modelId.startsWith(".")) continue;
+
+                ModelData data = scanModelDir(dir, modelId);
+                if (data != null) {
+                    registry.register(data);
+                    loaded++;
+                    LOGGER.info("Discovered model: {}", modelId);
                 }
             }
         } catch (IOException e) {
             LOGGER.warn("Failed to list models directory: {}", e.getMessage());
         }
 
-        LOGGER.info("Loaded {} model(s) from config", loaded);
+        LOGGER.info("Discovered {} model(s) from config", loaded);
     }
 
-    private static ModelData parseModelConfig(JsonObject json) {
-        String modelId = getString(json, "model_id");
-        if (modelId == null || modelId.isBlank()) {
-            LOGGER.warn("Missing or empty 'model_id' in model config");
+    private static ModelData scanModelDir(Path dir, String modelId) {
+        String geoFile = null;
+        String textureFile = null;
+        String animFile = null;
+
+        try (Stream<Path> files = Files.list(dir)) {
+            for (Path file : (Iterable<Path>) files::iterator) {
+                String name = file.getFileName().toString().toLowerCase(Locale.ROOT);
+                if (name.endsWith(".geo.json") && geoFile == null) {
+                    geoFile = modelId;
+                } else if (name.endsWith(".png") && textureFile == null) {
+                    textureFile = modelId;
+                } else if (name.endsWith(".animation.json") && animFile == null) {
+                    animFile = modelId;
+                }
+            }
+        } catch (IOException e) {
             return null;
         }
 
-        String modelPath = getString(json, "model_path");
-        if (modelPath == null) {
-            LOGGER.warn("Missing 'model_path' in model config: {}", modelId);
+        if (geoFile == null || textureFile == null) {
+            LOGGER.warn("Model '{}' missing required .geo.json or .png file", modelId);
             return null;
         }
 
-        String texturePath = getString(json, "texture_path");
-        if (texturePath == null) {
-            LOGGER.warn("Missing 'texture_path' in model config: {}", modelId);
-            return null;
-        }
-
-        ResourceLocation modelRL = ResourceLocation.parse(modelPath);
-        ResourceLocation textureRL = ResourceLocation.parse(texturePath);
+        ResourceLocation modelRL = ResourceLocation.parse("nc3d:geo/" + modelId + ".geo.json");
+        ResourceLocation textureRL = ResourceLocation.parse("nc3d:textures/" + modelId + ".png");
 
         ModelData.Builder builder = ModelData.builder(modelId, modelRL, textureRL);
 
-        String animPath = getString(json, "animation_path");
-        if (animPath != null) {
-            builder.animationPath(ResourceLocation.parse(animPath));
-        }
-
-        if (json.has("scale")) {
-            builder.scale(json.get("scale").getAsFloat());
-        }
-
-        float ox = getFloat(json, "offset_x", 0.0f);
-        float oy = getFloat(json, "offset_y", 0.0f);
-        float oz = getFloat(json, "offset_z", 0.0f);
-        if (ox != 0.0f || oy != 0.0f || oz != 0.0f) {
-            builder.offset(ox, oy, oz);
+        if (animFile != null) {
+            builder.animationPath(ResourceLocation.parse("nc3d:animations/" + modelId + ".animation.json"));
         }
 
         return builder.build();
-    }
-
-    private static String getString(JsonObject json, String key) {
-        return json.has(key) && !json.get(key).isJsonNull() ? json.get(key).getAsString() : null;
-    }
-
-    private static float getFloat(JsonObject json, String key, float fallback) {
-        return json.has(key) ? json.get(key).getAsFloat() : fallback;
     }
 
     private ModelConfigLoader() {}

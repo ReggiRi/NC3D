@@ -2,6 +2,7 @@ package com.nc3d;
 
 import com.nc3d.entity.ModelEntityRenderer;
 import com.nc3d.entity.NC3DEntities;
+import com.nc3d.model.ConfigPackRegistrar;
 import com.nc3d.model.ModelConfigLoader;
 import com.nc3d.network.NC3DPackets;
 import com.nc3d.network.S2CAnimationState;
@@ -34,7 +35,9 @@ public class NC3DNeoForge {
         registrar.playToClient(S2CAnimationState.TYPE, S2CAnimationState.STREAM_CODEC, (payload, context) -> {});
     }
 
-    private void onClientSetup(FMLClientSetupEvent event) {}
+    private void onClientSetup(FMLClientSetupEvent event) {
+        ConfigPackRegistrar.register(FMLPaths.CONFIGDIR.get());
+    }
 
     private void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(NC3DEntities.MODEL_ENTITY, ModelEntityRenderer::new);
